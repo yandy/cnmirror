@@ -16,13 +16,13 @@ env:
 
 jobs:
 
-  cpp:
+  build-and-push:
 
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        tag: [debian, node, python]
+        tag: [debian, node, python, cuda]
 
     steps:
       - name: Checkout repository
