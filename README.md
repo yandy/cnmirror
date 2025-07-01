@@ -7,3 +7,4 @@
 - debian: `ghcr.io/yandy/cnmirror:debian`
 - node: `ghcr.io/yandy/cnmirror:node`
 - python: `ghcr.io/yandy/cnmirror:python`
+- cuda: `ghcr.io/yandy/cnmirror:cuda`
