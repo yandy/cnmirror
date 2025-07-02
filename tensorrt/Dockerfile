@@ -9,35 +9,29 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-		libbluetooth-dev \
-		tk-dev \
-		uuid-dev \
-        wget \
-        gnupg \
-        git \
-        procps \
-		build-essential \
+		wget \
+		gnupg \
+		ca-certificates \
+		autoconf \
+		automake \
+		bzip2 \
 		dpkg-dev \
-		zlib1g-dev \
+		file \
+		g++ \
+		gcc \
 		libbz2-dev \
 		libc6-dev \
-		libcurl4-openssl-dev \
 		libdb-dev \
 		libevent-dev \
 		libffi-dev \
 		libgdbm-dev \
-		libglib2.0-dev \
 		libgmp-dev \
 		libjpeg-dev \
 		libkrb5-dev \
 		liblzma-dev \
-		libmagickcore-dev \
-		libmagickwand-dev \
-		libmaxminddb-dev \
 		libncurses5-dev \
 		libncursesw5-dev \
 		libpng-dev \
-		libpq-dev \
 		libreadline-dev \
 		libsqlite3-dev \
 		libssl-dev \
@@ -46,7 +40,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		libxml2-dev \
 		libxslt-dev \
 		libyaml-dev \
-		default-libmysqlclient-dev \
+		make \
+		patch \
+		xz-utils \
+		zlib1g-dev \
+		uuid-dev \
 	; \
     sed -i 's@//.*archive.ubuntu.com@//mirrors.aliyun.com@g' /etc/apt/sources.list.d/ubuntu.sources; \
     sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list.d/ubuntu.sources
@@ -125,6 +123,7 @@ RUN set -eux; \
 		'wheel<0.46' \
 	; \
 	pip3 --version; \
+# make some useful symlinks that are expected to exist ("/usr/local/bin/python" and friends)
 	for src in idle3 pip3 pydoc3 python3 python3-config; do \
 		dst="$(echo "$src" | tr -d 3)"; \
 		[ -s "/usr/local/bin/$src" ]; \
@@ -132,11 +131,11 @@ RUN set -eux; \
 		ln -svT "$src" "/usr/local/bin/$dst"; \
 	done
 
-# make some useful symlinks that are expected to exist ("/usr/local/bin/python" and friends)
 RUN set -eux; \
 	export NVIDIA_TENSORRT_DISABLE_INTERNAL_PIP=1; \
 	pip3 install \
 		--disable-pip-version-check \
 		--no-cache-dir \
 		--no-compile \
-		'tensorrt~=10.8.0'
+		'tensorrt~=10.8.0'; \
+	pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
