@@ -114,7 +114,6 @@ RUN set -eux; \
 	ldconfig; \
 	\
 	export PYTHONDONTWRITEBYTECODE=1; \
-	export NVIDIA_TENSORRT_DISABLE_INTERNAL_PIP=1; \
 	python3 --version; \
 	\
 	pip3 install \
@@ -124,15 +123,20 @@ RUN set -eux; \
 		'setuptools==65.5.1' \
 		# https://github.com/docker-library/python/issues/1023
 		'wheel<0.46' \
-		'tensorrt~=10.8.0' \
 	; \
-	pip3 --version
-
-# make some useful symlinks that are expected to exist ("/usr/local/bin/python" and friends)
-RUN set -eux; \
+	pip3 --version; \
 	for src in idle3 pip3 pydoc3 python3 python3-config; do \
 		dst="$(echo "$src" | tr -d 3)"; \
 		[ -s "/usr/local/bin/$src" ]; \
 		[ ! -e "/usr/local/bin/$dst" ]; \
 		ln -svT "$src" "/usr/local/bin/$dst"; \
 	done
+
+# make some useful symlinks that are expected to exist ("/usr/local/bin/python" and friends)
+RUN set -eux; \
+	export NVIDIA_TENSORRT_DISABLE_INTERNAL_PIP=1; \
+	pip3 install \
+		--disable-pip-version-check \
+		--no-cache-dir \
+		--no-compile \
+		'tensorrt~=10.8.0'
