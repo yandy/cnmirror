@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: [debian, node, python, cuda, tensorrt]
+        tag: [debian, node, python, cuda]
 
     steps:
       - name: Checkout repository

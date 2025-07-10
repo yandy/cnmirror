@@ -8,4 +8,3 @@
 - node: `ghcr.io/yandy/cnmirror:node`
 - python: `ghcr.io/yandy/cnmirror:python`
 - cuda: `ghcr.io/yandy/cnmirror:cuda`
-- tensorrt: `ghcr.io/yandy/cnmirror:tensorrt`
